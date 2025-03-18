@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
     public function offres(){
-        return $this->hasMany(Offre::class,"offre_user");
+        return $this->belongsToMany(Offre::class,"offre_user")->withPivot('url');;
 
     }
 

@@ -50,11 +50,11 @@ class OffreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function postuler(Request $request,Offre $offre)
+    public function postuler(Request $request,$id)
     {
-        $validateData=$request->validate(["cv"=> "required"]);
+        // $validateData=$request->validate(["url"=> "required"]);
         $user=Auth::user();
-        $user->offres()->attach($offre->id,[$request->url]);
+        // $user->offres()->attach($id,["url"=>$request->url]);
         return response()->json($user);
 
     }
