@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competence;
 use App\Http\Requests\StoreCompetenceRequest;
 use App\Http\Requests\UpdateCompetenceRequest;
+use Illuminate\Http\Request;
 
 class CompetenceController extends Controller
 {
@@ -13,7 +14,8 @@ class CompetenceController extends Controller
      */
     public function index()
     {
-        //
+        $Competences=Competence::all();
+        return response()->json([$Competences],200);
     }
 
     /**
@@ -27,9 +29,11 @@ class CompetenceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompetenceRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validateData=$request->validate(["name"=>"required"]);
+        Competence::create($validateData);
+        return response()->json(["data"=>$validateData],200);
     }
 
     /**
@@ -51,9 +55,11 @@ class CompetenceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompetenceRequest $request, Competence $competence)
+    public function update(Request $request, Competence $competence)
     {
-        //
+        $competence->update($request->all());
+        return response()->json(["message"=>"avec succes",
+        "data"=>$competence],200);
     }
 
     /**
@@ -61,6 +67,8 @@ class CompetenceController extends Controller
      */
     public function destroy(Competence $competence)
     {
-        //
+        $competence->delete();
+        return response()->json(["message"=>"avec succes",
+        "data"=>$competence],200);
     }
 }

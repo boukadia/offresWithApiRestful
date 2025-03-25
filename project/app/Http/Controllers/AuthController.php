@@ -13,7 +13,8 @@ class AuthController extends Controller
     // public function  __construct(){
     //     $this->middleware("auth:api");
     // }
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
@@ -22,39 +23,40 @@ class AuthController extends Controller
 
         return $this->respondWithToken($token);
     }
-    public function logout(){
+    public function logout()
+    {
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
-   
-        public function register(Request $request)
-        {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:2',
-            ]);
-    
-            if ($validator->fails()) {
-                return response()->json($validator->errors(), 400);
-            }
-    
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-    
-            $token = JWTAuth::fromUser($user);
-    
-            return response()->json([
-                'message' => 'User successfully registered',
-                'user' => $user,
-                'token' => $token
-            ], 201);
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:2',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
-    
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
+
     protected function respondWithToken($token)
     {
         return response()->json([

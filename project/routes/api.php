@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompetenceController;
 use App\Http\Controllers\offreController;
 use App\Models\Offre;
 use Illuminate\Http\Request;
@@ -31,3 +32,7 @@ Route::post('/addOffre',[offreController::class,'create'])->name('create');
 Route::post('{id}/postuler',[offreController::class,'postuler'])->name('postuler')->middleware('auth.api');
 Route::put('/{offre}/updateOffre',[offreController::class,'update'])->name('update');
 Route::delete('/{offre}/deleteOffre',[offreController::class,'destroy'])->name('delete');
+Route::get('/getCompetences',[CompetenceController::class,'index'])->name('getCompetences');
+Route::post('/addCompetence',[CompetenceController::class,'store'])->name('addCompetences');
+Route::put('{competence}/updateCompetence',[CompetenceController::class,'update'])->name('updateCompetences');
+Route::delete('{competence}/deleteCompetence',[CompetenceController::class,'destroy'])->name('deleteCompetences');
